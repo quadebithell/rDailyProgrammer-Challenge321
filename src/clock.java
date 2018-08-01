@@ -18,25 +18,23 @@ import java.util.Scanner;
 public class clock {
 
 	static boolean isAM;
-	public static String[] Tens = { "Twenty", "Thirty", "forty", "Fifty" };
+	public static String[] Tens = { "twenty", "thirty", "forty", "fifty" };
 	public static String[] OneToTeens = { "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
-			"Ten", "Eleven", "Tweleve", "Thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen",
+			"ten", "eleven", "tweleve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen",
 			"nineteen" };
-	
-	
-	
+
 	public static void main(String[] args) {
 
 		System.out.println("Please enter the current time in XX:YY format");
 		Scanner input = new Scanner(System.in);
 		String timeIN = input.nextLine();
 
-		if (!timeIN.contains(":")) {
+		if (!timeIN.contains(":") || timeIN.length() > 5 || timeIN.length() < 0|| Integer.parseInt((String) timeIN.subSequence(0, 2)) >= 24) {
 			do {
 				System.out.println("Incorrect entry please remember to insert time as 24-hour time format XX:YY ");
 				timeIN = input.nextLine();
-
-			} while (!timeIN.contains(":") || timeIN.length() > 5 || timeIN.length() < 0);
+				System.out.println(Integer.parseInt((String) timeIN.subSequence(0, 2)));
+			} while (!timeIN.contains(":") || timeIN.length() > 5 || timeIN.length() < 0|| Integer.parseInt((String) timeIN.subSequence(0, 2)) >= 24);
 
 		} else
 
@@ -54,34 +52,32 @@ public class clock {
 		int hours = Integer.parseInt(times[0]);
 		int minutes = Integer.parseInt(times[1]);
 
+		//This returns the hours from 24-hour format to 12 hour format so it can access the arrays
 		if (hours >= 12) {
 			hours = hours - 12;
 			isAM = false;
 		}
 		hour = OneToTeens[hours];
-		System.out.println("Test "+ hour);
 
-		
 		if (minutes <= 20) {
-			if(minutes<10) {
+			if (minutes < 10 && minutes!=0) {
+				//checks if the tens value of minutes is empty or not in order to add the "oh" prefix
 				mins = "oh " + OneToTeens[minutes];
 
-			}else
-			mins = OneToTeens[minutes];
+			} else
+				mins = OneToTeens[minutes];
 
 		} else if (minutes >= 20) {
-			
 			mins = Tens[(minutes / 10) - 2] + " " + OneToTeens[minutes % 10];
-
 		}
 		
-		if(isAM == true) {
-			System.out.println("The time is: " + hour +" " + mins + "AM");
-
-		}else {
-			System.out.println("The time is: " + hour +" " + mins + " PM");
+		
+		if (isAM == true) {
+			System.out.println("The time is: " + hour + " " + mins + "AM");
+		} else {
+			System.out.println("The time is: " + hour + " " + mins + " PM");
 
 		}
-		
+
 	}
 }
